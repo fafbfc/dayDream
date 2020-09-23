@@ -19,6 +19,7 @@ public class SanlingerprojectApplication {
 		SpringApplication.run(SanlingerprojectApplication.class, args);
 	}
 
+
 //		允许跨域请求
 	@Bean
 	public CorsFilter corsFilter()
