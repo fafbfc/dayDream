@@ -1,4 +1,4 @@
-package cn.edu.gdsdxy.sanlingerproject.controllerAdvice;
+package cn.edu.gdsdxy.sanlingerproject.core.advice;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
