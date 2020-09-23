@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    scan:开启日志框架的热部署,默认值true表示开启
+    scanPeriod:热部署的频率,默认值60 second
+    debug:设置输出框架内部的日志,默认值false
+-->
+<configuration scan="true" scanPeriod="60 second" debug="false">
+    <!-- 设置属性，用来${...}引用 -->
+    <property name="appName" value="dayDream"/>
+
+    <!-- 山下文路径命名，可有可无 -->
+    <contextName>${appName}</contextName>
+
+    <!--
+        appender:日志输出对象,配置不同的类拥有不同的功能
+            ch.qos.logback.core.FileAppender：输出策略，日志输出到文件
+            ch.qos.logback.core.ConsoleAppender：输出策略，日志输出到控制台
+        encoder：日志编码格式
+            pattern：格式
+     -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd-HH:mm:ss} %level [%thread]-%logger{35} >>>> %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+        append：为文件内容是否追加
+        file：指定文件名，默认放置在项目目录下
+    -->
+    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+        <append>true</append>
+        <file>mylog.log</file>
+    </appender>
+
+    <!-- 输出到文件，文件日志切分，有生命周期，文件大小
+           fileNamePattern：文件名切分规则，/为下个文件目录， -->
+    <appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>mylogOther.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/spring-boot-logging.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志保存周期 -->
+            <maxHistory>30</maxHistory>
+            <!-- 总大小 -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+        root：！！必选的，标记日志输出
+            有appender-ref多少个，一条日志就输出多少次
+        level:按照级别输出日志,日志级别,级别越高,输出的内容越少
+        trace > debug > info > warn > error
+    -->
+    <root level="info">
+        <appender-ref ref="consoleAppender"/>
+    </root>
+
+    <!-- 自定义的logger,用于专门输出特定包(package)中打印的日志 -->
+    <logger name="cn.edu.gdsdxy.sanlingerproject" level="trace">
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="fileAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+</configuration>
