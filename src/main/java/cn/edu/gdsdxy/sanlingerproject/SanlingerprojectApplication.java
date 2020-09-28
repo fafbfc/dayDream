@@ -11,14 +11,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 //	扫描mapper指定包名
-@MapperScan("cn.edu.gdsdxy.sanlingerproject.core.mapper")
 @SpringBootApplication
 public class SanlingerprojectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SanlingerprojectApplication.class, args);
 	}
-
 
 //		允许跨域请求
 	@Bean
