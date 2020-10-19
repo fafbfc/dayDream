@@ -30,12 +30,12 @@ public interface AdminUserService extends IService<AdminUser> {
      * @param adminUserLoginDTO 接收后台管理用户的登录信息
      * @return
      */
-    void login(AdminUserLoginDTO adminUserLoginDTO);
+    Map<String, String> login(AdminUserLoginDTO adminUserLoginDTO);
 
     /**
      * service后台管理用户退出
      */
-    void logout();
+    void logout(String token);
 
     /**
      * 查询后台管理用户数据

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * Created by Administrator on 2020/10/12.
@@ -30,7 +31,8 @@ public class AdminNeedLoginInterceptor implements HandlerInterceptor {
         if(adminNeedLogin == null) return true;
 
 //        获取登录凭证
-        AdminUser adminUser = DayDreamRequestHolder.getAdminUserLoginInSession();
+        String token = request.getHeader("token");
+        AdminUser adminUser = DayDreamRequestHolder.getAdminUserLoginInServletContext(token);
 
         if( adminUser != null ) return true;
 

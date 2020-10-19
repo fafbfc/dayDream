@@ -5,12 +5,12 @@ import cn.edu.gdsdxy.sanlingerproject.core.domain.ClientUser;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public abstract class DayDreamRequestHolder
 {
-    private static final String ADMIN_USER_LOGIN_TOKEN = "ADMIN_USER_LOGIN_TOKEN";
     private static final String CLIENT_USER_LOGIN_TOKEN = "CLIENT_USER_LOGIN_TOKEN";
 
     public static HttpServletRequest getRequest()
@@ -25,20 +25,26 @@ public abstract class DayDreamRequestHolder
         return session;
     }
 
-    public static void setAdminUserLoginInSession(AdminUser adminUser)
+    public static ServletContext getServletContext()
     {
-        getSession().setAttribute(ADMIN_USER_LOGIN_TOKEN, adminUser);
+        ServletContext servletContext = getRequest().getServletContext();
+        return servletContext;
     }
 
-    public static AdminUser getAdminUserLoginInSession()
+    public static void setAdminUserLoginInServletContext(String token, AdminUser adminUser)
     {
-        AdminUser adminUser = (AdminUser)getSession().getAttribute(ADMIN_USER_LOGIN_TOKEN);
+        getServletContext().setAttribute(token, adminUser);
+    }
+
+    public static AdminUser getAdminUserLoginInServletContext(String token)
+    {
+        AdminUser adminUser = (AdminUser)getServletContext().getAttribute(token);
         return adminUser;
     }
 
-    public static void removeAdminUserLoginInSession()
+    public static void removeAdminUserLoginInServletContext(String token)
     {
-        getSession().removeAttribute(ADMIN_USER_LOGIN_TOKEN);
+        getServletContext().removeAttribute(token);
     }
 
     public static void setClientUserLoginInSession(ClientUser clientUser)

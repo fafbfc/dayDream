@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -84,7 +85,7 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
      * @return
      */
     @Override
-    public void login(AdminUserLoginDTO adminUserLoginDTO) {
+    public Map<String, String> login(AdminUserLoginDTO adminUserLoginDTO) {
 
         String name = adminUserLoginDTO.getName();
         String password = adminUserLoginDTO.getPassword();
@@ -106,22 +107,26 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
         if(oneUser == null)
             throw new AdminUserLogicException(AdminUserResult.NOT_EXIST_OR_PASSWORK_MISS);
 
-//        以uuid为token，不是分布式，不用token
-//        String token = UUID.randomUUID().toString();
-
-//        把登录凭证放到session上
         oneUser.setPassword(null);
-        DayDreamRequestHolder.setAdminUserLoginInSession(oneUser);
+
+//        生成 token 放在 ServletContext
+        String token = UUID.randomUUID().toString();
+
+        DayDreamRequestHolder.setAdminUserLoginInServletContext(token, oneUser);
+//        封装数据给前端
+        Map<String, String> map = new HashMap();
+        map.put("token", token);
+        return map;
     }
 
     /**
      * service后台管理用户退出
      */
     @Override
-    public void logout() {
+    public void logout(String token) {
 
 //        删除session的登录凭证
-        DayDreamRequestHolder.removeAdminUserLoginInSession();
+        DayDreamRequestHolder.removeAdminUserLoginInServletContext(token);
     }
 
     /**

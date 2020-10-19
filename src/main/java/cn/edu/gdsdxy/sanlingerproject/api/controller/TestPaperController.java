@@ -9,6 +9,7 @@ import cn.edu.gdsdxy.sanlingerproject.core.result.AdminUserResult;
 import cn.edu.gdsdxy.sanlingerproject.core.result.ClientUserResult;
 import cn.edu.gdsdxy.sanlingerproject.core.result.Result;
 import cn.edu.gdsdxy.sanlingerproject.core.service.TestPaperService;
+import cn.edu.gdsdxy.sanlingerproject.util.annotation.AdminNeedLogin;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -51,6 +52,7 @@ public class TestPaperController {
             @ApiImplicitParam(value = "试卷名",name = "keywork",dataType = "String",required = false),
             @ApiImplicitParam(value = "学科",name = "subject",dataType = "String",required = false),
     })
+    @AdminNeedLogin //  登录拦截的注解
     @ApiOperation(value = "查询试卷", notes = "接收客户端的传递的查询条件数据")
     @GetMapping("selectList")
     public Result selectList(@RequestParam(defaultValue = "1") Integer pageNo
@@ -70,6 +72,7 @@ public class TestPaperController {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "试卷id",name = "id",dataType = "String",required = true),
     })
+    @AdminNeedLogin //  登录拦截的注解
     @ApiOperation(value = "删除试卷", notes = "接收后台管理的删除试卷数据")
     @PostMapping("delete")
     public Result delete(@Valid @RequestBody BaseDeleteDTO baseDeleteDTO)
@@ -93,6 +96,8 @@ public class TestPaperController {
             @ApiImplicitParam(value = "题目数量",name = "count",dataType = "Integer",required = true),
             @ApiImplicitParam(value = "题目集合",name = "stemIdList",dataType = "List",required = true),
     })
+    @AdminNeedLogin //  登录拦截的注解
+    @ApiOperation(value = "修改试卷", notes = "接收客户端的修改试卷数据")
     @PostMapping("updata")
     public Result updata(@Valid @RequestBody TestPaperUpdataDTO testPaperIUpdataDTO)
     {
@@ -110,6 +115,7 @@ public class TestPaperController {
             @ApiImplicitParam(value = "试卷id",name = "id",dataType = "String",required = true),
             @ApiImplicitParam(value = "推荐值",name = "isRecommend",dataType = "String",required = true),
     })
+    @AdminNeedLogin //  登录拦截的注解
     @ApiOperation(value = "试卷变为是否推荐", notes = "接收客户端的传递的推荐变更数据")
     @PostMapping("isRecommendChange")
     public Result isRecommendChange(@Valid @RequestBody IsRecommendChangeDTO isRecommendChangeDTO)
@@ -132,6 +138,7 @@ public class TestPaperController {
             @ApiImplicitParam(value = "题目数量",name = "count",dataType = "Integer",required = true),
             @ApiImplicitParam(value = "题目集合",name = "stemIdList",dataType = "List",required = true),
     })
+    @AdminNeedLogin //  登录拦截的注解
     @ApiOperation(value = "添加试卷", notes = "接收客户端的添加试卷数据")
     @PostMapping("add")
     public Result add(@Valid @RequestBody TestPaperAddDTO testPaperAddDTO)

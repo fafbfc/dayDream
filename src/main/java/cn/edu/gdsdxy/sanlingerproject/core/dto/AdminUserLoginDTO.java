@@ -1,5 +1,7 @@
 package cn.edu.gdsdxy.sanlingerproject.core.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class AdminUserLoginDTO {
 
+    @JsonProperty("username")
     @NotEmpty( message = "后台管理用户名不能为空" )
     private String name;            //  后台管理用户名
 
